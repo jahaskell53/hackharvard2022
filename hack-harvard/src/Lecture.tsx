@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import DropDown from "./DropDown";
 import HomeButton from "./HomeButton";
+import { useParams } from "react-router-dom";
 
 function LectureGrid() {
   const [count, setCount] = useState(0);
@@ -13,12 +14,44 @@ function LectureGrid() {
     action: ["Record", "Watch"],
   };
 
+  const {lectureId} = useParams();
+  console.log("lectureId", lectureId)
+
+  const lectures = [
+    {
+      title: "Lecture 1",
+      id: "1",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+
+    },
+    {
+      title: "Lecture 2",
+      id: "2",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+    },
+    {
+      title: "Lecture 3",
+      id: "3",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+    },
+  ]
+  function getLectureById(id: string) {
+        return lectures.find((lecture) => lecture.id === id);
+  }
+
+  const lecture = getLectureById(lectureId!.split("lecture-")[1]);
   return (
     <>
       <>
         <HomeButton></HomeButton>
         <>
-          <h1>APMA 1650 Lecture 2</h1>
+          <h1>{lecture!.class} {lecture!.title}</h1>
         </>
       </>
       <p className="text-left mt-10">

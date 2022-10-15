@@ -52,7 +52,7 @@ function LectureGrid() {
             {lectures.map((lecture) => {
 
                 return (
-                    <a href={`lecture-${lecture.id}`} className="flex gap-3 justify-between">
+                    <a href={`watch/lecture-${lecture.id}`} className="flex gap-3 justify-between">
                         <li className="lecture">{lecture.title}</li>
                         <li className="lecture">{lecture.class}</li>
                         <li className="lecture">{lecture.date}</li>
