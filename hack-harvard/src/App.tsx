@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-    
+    I am a student at Brown University in looking to 
     </div>
   )
 }
