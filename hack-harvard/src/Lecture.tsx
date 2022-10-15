@@ -14,8 +14,8 @@ function LectureGrid() {
     action: ["Record", "Watch"],
   };
 
-  const {lectureId} = useParams();
-  console.log("lectureId", lectureId)
+  const { lectureId } = useParams();
+  console.log("lectureId", lectureId);
 
   const lectures = [
     {
@@ -24,7 +24,6 @@ function LectureGrid() {
       class: "APMA 1650",
       date: "2021-01-01",
       professor: "Professor 1",
-
     },
     {
       title: "Lecture 2",
@@ -40,19 +39,17 @@ function LectureGrid() {
       date: "2021-01-01",
       professor: "Professor 1",
     },
-  ]
+  ];
   function getLectureById(id: string) {
-        return lectures.find((lecture) => lecture.id === id);
+    return lectures.find(lecture => lecture.id === id);
   }
 
   const lecture = getLectureById(lectureId!.split("lecture-")[1]);
   return (
-    <>
-      <>
-        <>
-          <h1>{lecture!.class} {lecture!.title}</h1>
-        </>
-      </>
+    <div className="w-screen mx-auto px-20">
+      <h1 className="p-10 text-4xl font-bold">
+        {lecture!.class} {lecture!.title}
+      </h1>
       <p className="text-left mt-10">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
         dicta alias reiciendis rerum? Esse minus, laboriosam repellendus
@@ -67,7 +64,7 @@ function LectureGrid() {
         repellendus neque in explicabo accusamus eveniet sequi, quod voluptate!
         Aspernatur.
       </p>
-    </>
+    </div>
   );
 }
 
