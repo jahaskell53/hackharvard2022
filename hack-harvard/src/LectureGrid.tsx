@@ -40,23 +40,22 @@ function LectureGrid() {
 
   return (
     <div className="w-screen p-10">
-        <ul id="headers" className="flex gap-3 font-bold text-2xl justify-between mt-8">
-            <li className="header">Lecture</li>
-            <li className="header">Class</li>
-            <li className="header">Date</li>
-            <li className="header">Professor</li>
+        <ul id="headers" className=" gap-3 font-bold text-2xl mt-8 grid grid-cols-4 text-left border bg-black">
+            <li className="p-4 text-white">Lecture</li>
+            <li className="p-4 text-white">Class</li>
+            <li className="p-4 text-white">Date</li>
+            <li className="p-4 text-white">Professor</li>
         </ul>
         <hr></hr>
-
         <ul>
             {lectures.map((lecture) => {
 
                 return (
-                    <a href={`watch/lecture-${lecture.id}`} className="flex gap-3 justify-between">
-                        <li className="lecture">{lecture.title}</li>
-                        <li className="lecture">{lecture.class}</li>
-                        <li className="lecture">{lecture.date}</li>
-                        <li className="lecture">{lecture.professor}</li>
+                    <a href={`watch/lecture-${lecture.id}`} className="w-full gap-3 grid-cols-4 grid text-left border">
+                        <li className="p-4">{lecture.title}</li>
+                        <li className="p-4">{lecture.class}</li>
+                        <li className="p-4">{lecture.date}</li>
+                        <li className="p-4">{lecture.professor}</li>
                     </a>
                 )
             })}
