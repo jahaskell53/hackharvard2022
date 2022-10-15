@@ -10,16 +10,20 @@ import Record from "./Record";
 import LectureGrid from "./LectureGrid";
 import HomeButton from "./HomeButton";
 import APITest from "./APITest"
+import { Navbar } from "./components/Navbar";
+import Lecture from "./Lecture";
 
 function App() {
   const isHome = window.location.pathname === "/";
   return (
-    <div className="App">
+    <div className="App flex flex-col h-screen w-screen">
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/record" element={<Record />} />
         <Route path="/watch" element={<LectureGrid />} />
         <Route path="/apitest" element={<APITest />} />
+        <Route path="/watch/:lectureId" element={<Lecture />} />
       </Routes>
     </div>
   );

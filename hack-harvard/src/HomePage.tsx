@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import RecordButton from "./RecordButton";
 import EndButton from "./EndButton";
 import HomeButton from "./HomeButton";
+import { Navbar } from "./components/Navbar";
 
 function HomePage() {
   const [count, setCount] = useState(0);
@@ -45,27 +46,27 @@ function changeSel(name: string, selection: string) {
   }
 
   return (
-    <div className="absolute justify-center flex items-center text-center top-1/2 -translate-y-1/2">
-        <form>
-      <div className="text-4xl mb-4">
-        I am a &nbsp;
-        <DropDown initialSelected="Student" options={options.role}
-        changeSel={(selection: string) => changeSel("role", selection)}></DropDown>
-        at &nbsp;
-        <DropDown initialSelected="MIT" options={options.university}
-        changeSel={(selection: string) => changeSel("university", selection)}></DropDown>
-        in &nbsp;
-        <DropDown
-          initialSelected="APMA 1650"
-          options={options.class}
-          changeSel={(selection: string) => changeSel("class", selection)}
-        ></DropDown>
-        looking to&nbsp;
-        <DropDown initialSelected="Record" options={options.action}
-        changeSel={(selection: string) => changeSel("action", selection)}></DropDown>
-        <br></br>
-      </div>
-      <button className="hover:bg-indigo-500 transition-all border-indigo-500 border-solid border-2 text-indigo-500 hover:text-white font-bold py-2 px-4 rounded text-2xl" onClick={(e) => handleSubmit(e)}>Go</button></form>
+    <div className="w-screen h-full justify-center flex items-center text-center font-bold bg-white">
+      <form>
+        <div className="text-4xl text-bold mb-4">
+          I am a &nbsp;
+          <DropDown initialSelected="Student" options={options.role}
+            changeSel={(selection: string) => changeSel("role", selection)}></DropDown>
+          at &nbsp;
+          <DropDown initialSelected="MIT" options={options.university}
+            changeSel={(selection: string) => changeSel("university", selection)}></DropDown>
+          in &nbsp;
+          <DropDown
+            initialSelected="APMA 1650"
+            options={options.class}
+            changeSel={(selection: string) => changeSel("class", selection)}
+          ></DropDown>
+          looking to&nbsp;
+          <DropDown initialSelected="Record" options={options.action}
+            changeSel={(selection: string) => changeSel("action", selection)}></DropDown>
+          <br></br>
+        </div>
+        <button className="hover:bg-indigo-500 transition-all border-indigo-500 border-solid border-2 text-indigo-500 hover:text-white font-bold py-2 px-4 rounded text-2xl" onClick={(e) => handleSubmit(e)}>Go</button></form>
     </div>
   );
 }
