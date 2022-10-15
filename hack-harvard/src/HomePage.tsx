@@ -46,7 +46,7 @@ function changeSel(name: string, selection: string) {
   }
 
   return (
-    <div className="w-screen absolute justify-center flex items-center text-center top-1/2 -translate-y-1/2">
+    <div className="w-screen absolute justify-center flex items-center text-center top-1/2 -translate-y-1/2 font-bold">
       <form>
         <div className="text-4xl mb-4">
           I am a &nbsp;
