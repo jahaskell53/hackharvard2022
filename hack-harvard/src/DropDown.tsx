@@ -10,13 +10,14 @@ export default function DropDown({initialSelected, options, changeSel}) {
   const [selected, setSelected] = useState(initialSelected)
   return (
     <Menu as="div" className="relative inline-block text-left">
+      {({ open }) => (<>
       <div>
         <Menu.Button className="inline-flex w-full justify-center 0 text-indigo-500 font-bold underline underline-offset-8 decoration-1 hover:text-indigo-800">
           {selected}
           <ChevronDownIcon className="flex-col self-center mr-2 ml-1 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
       </div>
-
+        {open &&
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -26,17 +27,20 @@ export default function DropDown({initialSelected, options, changeSel}) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white focus:outline-none text-lg border">
+        <Menu.Items className="absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white focus:outline-none text-lg border" static>
           <div className="py-1">
             {options.filter(item => (item !== selected)).map((option) => (
             <Menu.Item>
-              {({ active }) => (
+              {({ active}) => (
                 <button 
                   value={option}
                   onClick={(e) => {
                     e.preventDefault();
                     setSelected(e.target.value)
                     changeSel(e.target.value)
+                    console.log("ioeb", open)
+                    open=!open;
+                    
                   }
                   }
                   className={classNames(
@@ -52,6 +56,8 @@ export default function DropDown({initialSelected, options, changeSel}) {
           </div>
         </Menu.Items>
       </Transition>
+}
+      </>)}
     </Menu>
   )
 }

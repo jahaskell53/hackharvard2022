@@ -47,9 +47,10 @@ function LectureGrid() {
   const lecture = getLectureById(lectureId!.split("lecture-")[1]);
   return (
     <div className="w-screen mx-auto px-20">
-      <h1 className="p-10 text-4xl font-bold">
+      <h1 className="pt-10 pb-3 text-4xl font-bold">
         {lecture!.class} {lecture!.title}
       </h1>
+      <hr></hr>
       <p className="text-left mt-10">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
         dicta alias reiciendis rerum? Esse minus, laboriosam repellendus
