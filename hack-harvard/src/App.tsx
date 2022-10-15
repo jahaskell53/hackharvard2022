@@ -1,30 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import DropDown from './DropDown'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import DropDown from "./DropDown";
+
+import * as React from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import HomePage from "./HomePage";
+import Record from "./Record";
+import Watch from "./Watch";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const options = {
-    role: ['Student', 'Professor'],
-    class: ['APMA 1650', 'APMA 1651', 'APMA 1652'],
-    university: ['Brown University', 'Harvard University', 'MIT'],
-    action: ['Record', 'Watch'],
-  }
 
   return (
-    <div className="w-screen h-screen flex-col justify-center">
-    <div className="App text-4xl">
-    I am a &nbsp;
-    <DropDown initialSelected="Student" options={options.role}></DropDown> 
-     at &nbsp;<DropDown initialSelected="MIT" options={options.university}></DropDown>   
-     in <DropDown initialSelected="APMA 1650" options={options.class}></DropDown>   
-     looking to&nbsp;
-     <DropDown initialSelected="Record" options={options.action}></DropDown>    
-    <br></br>
+<div className="App">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/record" element={<Record />} />
+        <Route path="/watch" element={<Watch />} />
+      </Routes>
     </div>
-    </div>
-  )
+  );  
 }
 
-export default App
+export default App;
