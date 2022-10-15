@@ -49,7 +49,6 @@ function LectureGrid() {
   return (
     <>
       <>
-        <HomeButton></HomeButton>
         <>
           <h1>{lecture!.class} {lecture!.title}</h1>
         </>
