@@ -5,7 +5,6 @@ import axios from "axios"
 import { initializeApp } from "firebase/app";
 import { getDocs, getFirestore } from "firebase/firestore";
 import { collection, addDoc, query, where, Timestamp } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
@@ -17,7 +16,6 @@ const firebaseConfig = {
 };
 const firebaseapp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseapp);
-const storage = getStorage(firebaseapp);
 
 const assembly = axios.create({
     baseURL: "https://api.assemblyai.com/v2",
@@ -27,7 +25,7 @@ const assembly = axios.create({
     },
 });
 
-const UPLOAD = true;
+const UPLOAD = false;
 
 function recordAudio() {
     navigator.mediaDevices.getUserMedia({audio: true})
@@ -42,7 +40,7 @@ function recordAudio() {
         setTimeout(() => {
             recorder.stop();
             console.log("Stopped recording");
-        }, 8000);
+        }, 10000);
 
         setTimeout(() => {
             const audioBlob = new Blob(audioChunks, {type: 'audio/m4a'});
@@ -51,26 +49,22 @@ function recordAudio() {
             const audio = new Audio(audioUrl);
             audio.play();
             uploadAudio(audioBlob);
-        }, 8100);
+        }, 10100);
     })
 }
 
-function uploadAudio(blob : Blob) {
+function uploadAudio(blob) {
 
     const recordClass = "APMA1650";
-    const storageRef = ref(storage, 'lecturetest.m4a');
-    const audioMetadata = {
-        contentType: 'audio/m4a'
-    };
     console.log(blob);
-    //storageRef.put(blob).then((snapshot) => {
-    //uploadBytes(storageRef, new File([blob], "lecturetest.mp3", {type: blob.type}), audioMetadata).then((snapshot) => {
-    //console.log(snapshot);
 
     assembly
+    .post("/upload", blob)
+    .then((res) => 
+    assembly
         .post("/transcript", {
-            audio_url: "https://bit.ly/3yxKEIY"
-            //audio_url: URL.createObjectURL(blob)
+            audio_url: res.data.upload_url,
+            auto_chapters: true
         })
         .then((res) => {
             console.log(res.data.id);
@@ -87,15 +81,15 @@ function uploadAudio(blob : Blob) {
             };
             addDoc(collection(db, "lectures"), docData);
         })
-        .catch((err) => console.error(err));
+    )
 }
 
 function playAudio() {
 
-    /*const fetchData = {
+    const fetchData = {
         "university": "Brown",
         "class": "APMA1650",
-        "title": "APMA1650 10/15/2022:11:55"
+        "title": "APMA1650 10/15/2022 15:18"
     };
     const q = query(collection(db, "lectures"),
         where("university", "==", fetchData.university),
@@ -105,16 +99,16 @@ function playAudio() {
     getDocs(q).then((foundDocs) => {
     foundDocs.forEach((doc) => {
         foundLectures++;
-        if (foundLectures == 1) { */
-            //const transcriptId = doc.data().id;
-            const transcriptId = "rkw6birfmm-2859-46e0-bd64-5fc9005d0ed2";
+        if (foundLectures == 1) {
+            const transcriptId = doc.data().id;
+            //const transcriptId = "rkfaoq5a8w-cbca-4c57-b98e-f30e5f076bb0";
             assembly
                 .get("/transcript/"+transcriptId)
-                .then((res) => console.log(res.data.text))
+                .then((res) => console.log(res.data))
                 .catch((err) => console.error(err));
-        /*}
+        }
     })
-    });*/
+    });
 }
 
 function APITest() {
