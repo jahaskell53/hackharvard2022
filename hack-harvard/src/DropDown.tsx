@@ -6,7 +6,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join('   ');
 }
 
-export default function Example({initialSelected, options}) {
+export default function DropDown({initialSelected, options, changeSel}) {
   const [selected, setSelected] = useState(initialSelected)
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -33,7 +33,12 @@ export default function Example({initialSelected, options}) {
               {({ active }) => (
                 <button 
                   value={option}
-                  onClick={(e) => setSelected(e.target.value)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelected(e.target.value)
+                    changeSel(e.target.value)
+                  }
+                  }
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2'
