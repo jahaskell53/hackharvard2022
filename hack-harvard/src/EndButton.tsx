@@ -3,8 +3,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import DropDown from "./DropDown";
 
-function EndButton() {
-  const [count, setCount] = useState(0);
+function EndButton({stopRecording}) {
   const [isClicked, setIsClicked] = useState(false);
   const options = {
     role: ["Student", "Professor"],
@@ -23,7 +22,7 @@ function EndButton() {
 
   return (<>
     <button className={`shadow-md transition-all rounded-lg font-bold py-2 px-4 rounded text-2xl inline-flex flex items-center gap-2 ${array[isClicked ? 1 : 0].props}`} onClick={(e) => { e.preventDefault();
-    setIsClicked(!isClicked)}}>
+    setIsClicked(!isClicked); stopRecording()}}>
         {array[isClicked ? 1 : 0].icon}
         {array[isClicked ? 1 : 0].name}
 </button>
