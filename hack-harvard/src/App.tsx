@@ -9,6 +9,7 @@ import HomePage from "./HomePage";
 import Record from "./Record";
 import LectureGrid from "./LectureGrid";
 import HomeButton from "./HomeButton";
+import APITest from "./APITest"
 
 function App() {
   const isHome = window.location.pathname === "/";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/record" element={<Record />} />
         <Route path="/watch" element={<LectureGrid />} />
+        <Route path="/apitest" element={<APITest />} />
       </Routes>
     </div>
   );
