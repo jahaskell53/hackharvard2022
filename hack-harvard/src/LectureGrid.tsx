@@ -13,28 +13,55 @@ function LectureGrid() {
     action: ["Record", "Watch"],
   };
 
+  const lectures = [
+    {
+      title: "Lecture 1",
+      id: "1",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+
+    },
+    {
+      title: "Lecture 2",
+      id: "2",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+    },
+    {
+      title: "Lecture 3",
+      id: "3",
+      class: "APMA 1650",
+      date: "2021-01-01",
+      professor: "Professor 1",
+    },
+  ]
+
   return (
     <>
-      <>
         <HomeButton></HomeButton>
-        <>
-          <h1>APMA 1650 Lecture 2</h1>
-        </>
-      </>
-      <p className="text-left mt-10">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
-        dicta alias reiciendis rerum? Esse minus, laboriosam repellendus
-        deleniti, inventore consectetur minima pariatur saepe dolores tempore
-        recusandae soluta odit cumque debitis adipisci, nobis quae unde illum
-        tempora sunt! Molestias ad esse provident modi assumenda voluptate totam
-        quibusdam commodi. Iste amet tempora repellat error mollitia quibusdam,
-        enim expedita assumenda ipsa. Vel nobis minima non asperiores cum saepe
-        quasi facilis, tempore itaque nulla sequi sed quam officiis blanditiis
-        eos voluptate, obcaecati neque pariatur deleniti rem consequuntur.
-        Commodi nisi voluptatibus, soluta, consequuntur facilis reiciendis
-        repellendus neque in explicabo accusamus eveniet sequi, quod voluptate!
-        Aspernatur.
-      </p>
+        <ul id="headers" className="flex gap-3 font-bold text-2xl justify-between mt-8">
+            <li className="header">Lecture</li>
+            <li className="header">Class</li>
+            <li className="header">Date</li>
+            <li className="header">Professor</li>
+        </ul>
+        <hr></hr>
+
+        <ul>
+            {lectures.map((lecture) => {
+
+                return (
+                    <a href={`lecture-${lecture.id}`} className="flex gap-3 justify-between">
+                        <li className="lecture">{lecture.title}</li>
+                        <li className="lecture">{lecture.class}</li>
+                        <li className="lecture">{lecture.date}</li>
+                        <li className="lecture">{lecture.professor}</li>
+                    </a>
+                )
+            })}
+        </ul>
     </>
   );
 }
