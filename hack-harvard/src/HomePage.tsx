@@ -54,7 +54,7 @@ function changeSel(name: string, selection: string) {
         at &nbsp;
         <DropDown initialSelected="MIT" options={options.university}
         changeSel={(selection: string) => changeSel("university", selection)}></DropDown>
-        in 
+        in &nbsp;
         <DropDown
           initialSelected="APMA 1650"
           options={options.class}
