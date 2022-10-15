@@ -11,7 +11,7 @@ export default function DropDown({initialSelected, options, changeSel}) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center 0 text-indigo-500 underline underline-offset-8 decoration-1 hover:text-indigo-800">
+        <Menu.Button className="inline-flex w-full justify-center 0 text-indigo-500 font-bold underline underline-offset-8 decoration-1 hover:text-indigo-800">
           {selected}
           <ChevronDownIcon className="flex-col self-center mr-2 ml-1 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
