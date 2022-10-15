@@ -19,12 +19,15 @@ function Record() {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   return (
-    <><HomeButton></HomeButton><><><h1 className="text-4xl my-8">Recording</h1>
-    
-    {isRecording ? <PauseButton isPaused={isPaused} setIsPaused={setIsPaused}></PauseButton> : <RecordButton isRecording={isRecording} setIsRecording={setIsRecording} />}
-          {isRecording && <EndButton />}
-          <p className="text-left mt-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam dicta alias reiciendis rerum? Esse minus, laboriosam repellendus deleniti, inventore consectetur minima pariatur saepe dolores tempore recusandae soluta odit cumque debitis adipisci, nobis quae unde illum tempora sunt! Molestias ad esse provident modi assumenda voluptate totam quibusdam commodi. Iste amet tempora repellat error mollitia quibusdam, enim expedita assumenda ipsa. Vel nobis minima non asperiores cum saepe quasi facilis, tempore itaque nulla sequi sed quam officiis blanditiis eos voluptate, obcaecati neque pariatur deleniti rem consequuntur. Commodi nisi voluptatibus, soluta, consequuntur facilis reiciendis repellendus neque in explicabo accusamus eveniet sequi, quod voluptate! Aspernatur.</p>
-      </></></>
+    <div className="w-screen p-10">
+      <HomeButton />
+      <h1 className="text-4xl my-8">Recording</h1>
+      <div className="flex flex-row gap-5 justify-center">
+        {isRecording ? <PauseButton isPaused={isPaused} setIsPaused={setIsPaused}></PauseButton> : <RecordButton isRecording={isRecording} setIsRecording={setIsRecording} />}
+        {isRecording && <EndButton />}
+      </div>
+            <p className="text-left mt-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam dicta alias reiciendis rerum? Esse minus, laboriosam repellendus deleniti, inventore consectetur minima pariatur saepe dolores tempore recusandae soluta odit cumque debitis adipisci, nobis quae unde illum tempora sunt! Molestias ad esse provident modi assumenda voluptate totam quibusdam commodi. Iste amet tempora repellat error mollitia quibusdam, enim expedita assumenda ipsa. Vel nobis minima non asperiores cum saepe quasi facilis, tempore itaque nulla sequi sed quam officiis blanditiis eos voluptate, obcaecati neque pariatur deleniti rem consequuntur. Commodi nisi voluptatibus, soluta, consequuntur facilis reiciendis repellendus neque in explicabo accusamus eveniet sequi, quod voluptate! Aspernatur.</p>
+    </div>
   );
 }
 

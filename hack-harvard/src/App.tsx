@@ -9,11 +9,13 @@ import HomePage from "./HomePage";
 import Record from "./Record";
 import LectureGrid from "./LectureGrid";
 import HomeButton from "./HomeButton";
+import { Navbar } from "./components/Navbar";
 
 function App() {
   const isHome = window.location.pathname === "/";
   return (
     <div className="App">
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/record" element={<Record />} />
