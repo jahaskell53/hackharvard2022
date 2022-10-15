@@ -40,7 +40,6 @@ function LectureGrid() {
 
   return (
     <div className="w-screen p-10">
-        <HomeButton></HomeButton>
         <ul id="headers" className="flex gap-3 font-bold text-2xl justify-between mt-8">
             <li className="header">Lecture</li>
             <li className="header">Class</li>

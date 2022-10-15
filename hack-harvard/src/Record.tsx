@@ -20,7 +20,6 @@ function Record() {
   const [isPaused, setIsPaused] = useState(false);
   return (
     <div className="w-screen p-10">
-      <HomeButton />
       <h1 className="text-4xl my-8">Recording</h1>
       <div className="flex flex-row gap-5 justify-center">
         {isRecording ? <PauseButton isPaused={isPaused} setIsPaused={setIsPaused}></PauseButton> : <RecordButton isRecording={isRecording} setIsRecording={setIsRecording} />}
