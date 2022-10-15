@@ -15,7 +15,7 @@ import Lecture from "./Lecture";
 function App() {
   const isHome = window.location.pathname === "/";
   return (
-    <div className="App">
+    <div className="App flex flex-col h-screen w-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
