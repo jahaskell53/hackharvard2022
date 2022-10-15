@@ -26,7 +26,7 @@ function EndButton() {
   const array = [{props: "bg-red-500 hover:bg-red-700 text-white", name: "Home", icon: homeIcon}, {props: "bg-red-500 hover:bg-red-700 text-white", name: "End", icon: homeIcon}];
 
   return (<>
-    <button className={`shadow-md transition-all rounded-lg font-bold py-2 px-4 rounded text-2xl inline-flex flex items-center gap-2 text-white border border-solid border-white hover:bg-gray-400 hover:text-white bg-black-100`} onClick={(e) => { e.preventDefault();
+    <button className={`shadow-md transition-all rounded-lg font-bold py-2 px-4 rounded text-2xl inline-flex flex items-center gap-2 text-white border border-solid border-white hover:bg-indigo-400 hover:text-white bg-black-100 hover:border-indigo-400`} onClick={(e) => { e.preventDefault();
     navigate("/");
     }}  >
         {array[isClicked ? 1 : 0].icon}

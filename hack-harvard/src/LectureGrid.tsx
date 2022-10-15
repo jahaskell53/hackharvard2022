@@ -64,15 +64,14 @@ function LectureGrid() {
 
   return (
     <div className="w-screen p-10">
-        <ul id="headers" className=" gap-3 font-bold text-2xl mt-8 grid grid-cols-2 text-left border bg-black">
+        <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-4 text-left border bg-black shadow-lg">
             <li className="p-4 text-white">Lecture</li>
             <li className="p-4 text-white">Date</li>
         </ul>
-        <hr></hr>
         <ul>
             {docs.map((lecture) => {
                 return (
-                    <a href={`watch/lecture-${lecture.id}`} className="w-full gap-3 grid-cols-2 grid text-left border">
+                    <a href={`watch/lecture-${lecture.id}`} className="w-full gap-3 grid-cols-4 grid text-left border hover:bg-gray-200 transition-all">
                         <li className="p-4">{lecture.title}</li>
                         <li className="p-4">{lecture.date}</li>
                     </a>
