@@ -43,6 +43,8 @@ function Record() {
     const handleData = (e) => {
       console.log(e.data);
       setAudioURL(URL.createObjectURL(e.data));
+      const audio = new Audio(URL.createObjectURL(e.data));
+      audio.play();
     };
 
     recorder.addEventListener("dataavailable", handleData);
