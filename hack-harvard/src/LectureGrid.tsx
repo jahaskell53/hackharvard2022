@@ -23,8 +23,9 @@ const fetchData = {
   "class": "APMA1650"
 };
 
-function format_date(date) {
-  return ''+date.seconds;
+function format_date(raw_date) {
+  let date = new Date(raw_date.seconds * 1000);
+  return ''+(1+date.getMonth())+'/'+date.getDate()+'/'+date.getFullYear() + ' ' + date.getHours()+':'+date.getMinutes();
 }
 function format_lecture(doc) {
   const data = doc.data();
