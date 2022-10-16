@@ -197,15 +197,22 @@ function Record() {
           </div>
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
           <p className="text-left">{speechToText.text}</p>
+          <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
+            <li className="p-4 text-white">Summary</li>
+            <li className="p-4 text-white">Headline</li>
+            <li className="p-4 text-white">Gist</li>
+            <li className="p-4 text-white">Start</li>
+            <li className="p-4 text-white">End</li>
+        </ul>
           {speechToText.chapters.map((chapter) => {
           return (
-          <div className="grid grid-cols-5">
-            <p>{chapter.summary}</p>
-            <p>{chapter.headline}</p>
-            <p>{chapter.gist}</p>
-            <p>{chapter.start}</p>
-            <p>{chapter.end}</p>
-          </div>);})}
+          <ul className="grid grid-cols-5">
+            <li className="p-4">{chapter.summary}</li>
+            <li className="p-4">{chapter.headline}</li>
+            <li className="p-4">{chapter.gist}</li>
+            <li className="p-4">{chapter.start}</li>
+            <li className="p-4">{chapter.end}</li>
+          </ul>);})}
       </div>
   );
 }
