@@ -12,6 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import axios from "axios"
 
 function Lecture() {
   const [count, setCount] = useState(0);
@@ -20,12 +21,7 @@ function Lecture() {
   const [thing, setThing] = useState({"university": "Brown", "class": "APMA1650", "title": "Lecture 1"});
 
   const [params, setParams] = useSearchParams();
-  const options = {
-    role: ["Student", "Professor"],
-    class: ["APMA 1650", "APMA 1651", "APMA 1652"],
-    university: ["Brown", "Harvard", "MIT"],
-    action: ["Record", "Watch"],
-  };
+  const [speechToText, setSpeechToText] = useState({chapters:[], text:"Loading..."})
 
   const firebaseConfig = {
     apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
@@ -72,6 +68,32 @@ function Lecture() {
         setDocs(update_docs.map(format_lecture));
         console.log(update_docs.map(format_lecture));
         const thing = update_docs.map(format_lecture);
+        const qry = query(collection(db, "lectures"),
+                where("title", "==", fetchData.title));
+        const assembly = axios.create({
+      baseURL: "https://api.assemblyai.com/v2",
+      headers: {
+          authorization: "0daee8a3236348678195040d20b89b83",
+        " content-type": "application/json",
+      },
+  });
+            var foundLectures = 0;
+            getDocs(qry).then((foundDocs) => {
+            foundDocs.forEach(async (doc) => {
+                foundLectures++;
+                if (foundLectures == 1) {
+                    const transcriptId = doc.data().id;
+                    //const transcriptId = "rkfaoq5a8w-cbca-4c57-b98e-f30e5f076bb0";
+                    console.log("awaiting promise")
+                    console.log("done")
+                    assembly
+                        .get("/transcript/"+transcriptId)
+                        .then((res) => {console.log(res.data); setSpeechToText({text: res.data.text, chapters: res.data.chapters})})
+                        .catch((err) => console.error(err));
+                    
+                }
+            })
+            });
         return thing[0];
       }
       getLectureDataByTitle({ title: title }).then(stuff => {
@@ -84,30 +106,6 @@ function Lecture() {
  
 
   const title = params.get("title");
-
-  const lectures = [
-    {
-      title: "Lecture 1",
-      id: "1",
-      class: "APMA 1650",
-      date: "2021-01-01",
-      professor: "Professor 1",
-    },
-    {
-      title: "Lecture 2",
-      id: "2",
-      class: "APMA 1650",
-      date: "2021-01-01",
-      professor: "Professor 1",
-    },
-    {
-      title: "Lecture 3",
-      id: "3",
-      class: "APMA 1650",
-      date: "2021-01-01",
-      professor: "Professor 1",
-    },
-  ];
   //   function getLectureById(id: string) {
   //     return lectures.find(lecture => lecture.id === id);
   //   }
@@ -127,20 +125,23 @@ function Lecture() {
       </div>
      
       <hr></hr>
-      <p className="text-left mt-10">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
-        dicta alias reiciendis rerum? Esse minus, laboriosam repellendus
-        deleniti, inventore consectetur minima pariatur saepe dolores tempore
-        recusandae soluta odit cumque debitis adipisci, nobis quae unde illum
-        tempora sunt! Molestias ad esse provident modi assumenda voluptate totam
-        quibusdam commodi. Iste amet tempora repellat error mollitia quibusdam,
-        enim expedita assumenda ipsa. Vel nobis minima non asperiores cum saepe
-        quasi facilis, tempore itaque nulla sequi sed quam officiis blanditiis
-        eos voluptate, obcaecati neque pariatur deleniti rem consequuntur.
-        Commodi nisi voluptatibus, soluta, consequuntur facilis reiciendis
-        repellendus neque in explicabo accusamus eveniet sequi, quod voluptate!
-        Aspernatur.
-      </p>
+          Transcript: <p className="text-left">{speechToText.text}</p>
+          <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
+            <li className="p-4 text-white">Summary</li>
+            <li className="p-4 text-white">Headline</li>
+            <li className="p-4 text-white">Gist</li>
+            <li className="p-4 text-white">Start</li>
+            <li className="p-4 text-white">End</li>
+        </ul>
+          {speechToText.chapters.map((chapter) => {
+          return (
+          <ul className="grid grid-cols-5">
+            <li className="p-4">{chapter.summary}</li>
+            <li className="p-4">{chapter.headline}</li>
+            <li className="p-4">{chapter.gist}</li>
+            <li className="p-4">{Math.floor(Math.floor(chapter.start / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.start / 1000)/60)}:{Math.floor(chapter.start / 1000) % 60 <10 && 0}{Math.floor(chapter.start / 1000) % 60}</li>
+            <li className="p-4">{Math.floor(Math.floor(chapter.end / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.end / 1000)/60)}:{Math.floor(chapter.end / 1000) % 60 <10 && 0}{Math.floor(chapter.end / 1000) % 60}</li>
+          </ul>);})}
     </div>
   );
 }
