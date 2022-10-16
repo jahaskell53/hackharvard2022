@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import axios from "axios"
+import BackButton from "./BackButton";
 
 function Lecture() {
   const [count, setCount] = useState(0);
@@ -113,36 +114,37 @@ function Lecture() {
  
 
   return (
-    <div className="w-screen mx-auto px-20 flex flex-col">
-      <h1 className="pt-10 text-4xl font-bold">
-        {title} Recording
-      </h1>
-      <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10">
-        <div>{thing.university}</div>
-        <div className="">
-        {thing.class}
-      </div>
-      </div>
-     
-      <hr></hr>
+    <><BackButton></BackButton><div className="w-screen mx-auto px-20 flex flex-col">
+          <h1 className="pt-10 text-4xl font-bold">
+              {title} Recording
+          </h1>
+          <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10">
+              <div>{thing.university}</div>
+              <div className="">
+                  {thing.class}
+              </div>
+          </div>
+
+          <hr></hr>
           <p className="mt-4">Transcript:</p> <p className="text-left">{speechToText.text}</p>
           <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
-            <li className="p-4 text-white">Summary</li>
-            <li className="p-4 text-white">Headline</li>
-            <li className="p-4 text-white">Gist</li>
-            <li className="p-4 text-white">Start</li>
-            <li className="p-4 text-white">End</li>
-        </ul>
+              <li className="p-4 text-white">Summary</li>
+              <li className="p-4 text-white">Headline</li>
+              <li className="p-4 text-white">Gist</li>
+              <li className="p-4 text-white">Start</li>
+              <li className="p-4 text-white">End</li>
+          </ul>
           {speechToText.chapters.map((chapter) => {
-          return (
-          <ul className="grid grid-cols-5">
-            <li className="p-4">{chapter.summary}</li>
-            <li className="p-4">{chapter.headline}</li>
-            <li className="p-4">{chapter.gist}</li>
-            <li className="p-4">{Math.floor(Math.floor(chapter.start / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.start / 1000)/60)}:{Math.floor(chapter.start / 1000) % 60 <10 && 0}{Math.floor(chapter.start / 1000) % 60}</li>
-            <li className="p-4">{Math.floor(Math.floor(chapter.end / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.end / 1000)/60)}:{Math.floor(chapter.end / 1000) % 60 <10 && 0}{Math.floor(chapter.end / 1000) % 60}</li>
-          </ul>);})}
-    </div>
+              return (
+                  <ul className="grid grid-cols-5">
+                      <li className="p-4">{chapter.summary}</li>
+                      <li className="p-4">{chapter.headline}</li>
+                      <li className="p-4">{chapter.gist}</li>
+                      <li className="p-4">{Math.floor(Math.floor(chapter.start / 1000) / 60) < 10 && 0}{Math.floor(Math.floor(chapter.start / 1000) / 60)}:{Math.floor(chapter.start / 1000) % 60 < 10 && 0}{Math.floor(chapter.start / 1000) % 60}</li>
+                      <li className="p-4">{Math.floor(Math.floor(chapter.end / 1000) / 60) < 10 && 0}{Math.floor(Math.floor(chapter.end / 1000) / 60)}:{Math.floor(chapter.end / 1000) % 60 < 10 && 0}{Math.floor(chapter.end / 1000) % 60}</li>
+                  </ul>);
+          })}
+      </div></>
   );
 }
 
