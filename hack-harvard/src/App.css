@@ -34,3 +34,13 @@
 .read-the-docs {
   color: #888;
 }
+
+#navbar_recap {
+  white-space: nowrap;
+}
+
+#navbar_recap img {
+  height: 1.75rem;
+  float: left;
+  margin-right: 15px;
+}
