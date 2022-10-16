@@ -23,7 +23,7 @@ const navigate = useNavigate();
   const [selected, setSelected] = useState({
     role: "Student",
     class: "APMA 1650",
-    university: "MIT",
+    university: "Brown",
     action: "Record",
   });
   interface FetchData {
@@ -121,7 +121,7 @@ function changeSel(name: string, selection: string) {
           <DropDown initialSelected="Student" options={options.role}
             changeSel={(selection: string) => changeSel("role", selection)}></DropDown>
           at &nbsp;
-          <DropDown initialSelected="MIT" options={options.university}
+          <DropDown initialSelected="Brown" options={options.university}
             changeSel={(selection: string) => changeSel("university", selection)}></DropDown>
           in &nbsp;
           <DropDown

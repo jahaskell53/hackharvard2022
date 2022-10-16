@@ -185,19 +185,27 @@ function Record() {
     setIsPaused(false);
 
   }
+ 
 
   return (
     <div className="w-screen p-10">
-      <h1 className="text-4xl my-8">{title} Recording</h1>
-      <h1 className="text-4xl my-8">{className} </h1>
-      <h1 className="text-4xl my-8">{university} </h1>
-      <div className="flex flex-row gap-5 justify-center">
+      <h1 className="text-4xl mt-8 font-bold">{title} Recording</h1>
+      <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10 items-center justify-center">
+        <div>{className}</div>
+        <div>
+        {university}
+      </div>
+      </div>
+      <hr></hr>
+      <div className="mt-3 flex flex-row gap-5 justify-center">
     {((isRecording == "started") || (isRecording == "paused") || (isRecording == "resumed") ) ? <PauseButton isRecording={isRecording} pauseRecording={pauseRecording} resumeRecording={resumeRecording} setIsRecording={setIsRecording}></PauseButton> : <RecordButton isRecording={isRecording} startRecording={startRecording}/>}
           {(isRecording == "started" || isRecording == "paused" || isRecording == "resumed") && <EndButton stopRecording={stopRecording}/>}
           </div>
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
-          Transcript: <p className="text-left">{speechToText.text}</p>
-          <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
+          <p className="text-left mb-2">Transcript: </p>
+          <p className="text-left">{speechToText.text}</p>
+          <h1 className="text-2xl mt-6 font-bold">Chapters</h1>
+          <ul id="headers" className=" gap-3 font-bold mt-5 grid grid-cols-5 text-left border bg-black shadow-lg">
             <li className="p-4 text-white">Summary</li>
             <li className="p-4 text-white">Headline</li>
             <li className="p-4 text-white">Gist</li>
@@ -206,12 +214,12 @@ function Record() {
         </ul>
           {speechToText.chapters.map((chapter) => {
           return (
-          <ul className="grid grid-cols-5">
+          <ul className="grid grid-cols-5 border-2 border-gray-400">
             <li className="p-4">{chapter.summary}</li>
             <li className="p-4">{chapter.headline}</li>
             <li className="p-4">{chapter.gist}</li>
-            <li className="p-4">{chapter.start}</li>
-            <li className="p-4">{chapter.end}</li>
+            <li className="p-4">{Math.floor(Math.floor(chapter.start / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.start / 1000)/60)}:{Math.floor(chapter.start / 1000) % 60 <10 && 0}{Math.floor(chapter.start / 1000) % 60}</li>
+            <li className="p-4">{Math.floor(Math.floor(chapter.end / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.end / 1000)/60)}:{Math.floor(chapter.end / 1000) % 60 <10 && 0}{Math.floor(chapter.end / 1000) % 60}</li>
           </ul>);})}
       </div>
   );

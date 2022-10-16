@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* <Route path="/record" element={<Record />} /> */}
-        <Route path="/record/:lectureId" element={<Record />} />
+        <Route path="/record" element={<Record />} />
         <Route path="/watch" element={<LectureGrid />} />
         <Route path="/apitest" element={<APITest />} />
         <Route path="/watch/lecture" element={<Lecture />} />
