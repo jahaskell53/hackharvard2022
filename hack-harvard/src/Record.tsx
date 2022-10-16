@@ -13,6 +13,7 @@ import axios from "axios"
 import { initializeApp } from "firebase/app";
 import { getDocs, getFirestore } from "firebase/firestore";
 import { collection, addDoc, query, where, Timestamp } from "firebase/firestore";
+import Loading from "./Loading";
 
 async function requestRecorder() {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -27,7 +28,7 @@ function Record() {
     const [speechToText, setSpeechToText] = useState({chapters:[], text:"Record a lecture to begin transcription!"})
 
   const [audioURL, setAudioURL] = useState("");
-  const [isRecording, setIsRecording] = useState("stopped");
+  const [isRecording, setIsRecording] = useState("not started");
   const [recorder, setRecorder] = useState<MediaRecorder|null>(null);
 
   const [time, setTime] = useState(0);  
@@ -54,6 +55,8 @@ function Record() {
         " content-type": "application/json",
       },
   });
+
+  const [audioSource, setAudioSource] = useState(null);
 
   
   useEffect(() => {
@@ -151,10 +154,12 @@ function Record() {
       )
   }
 
+
     const handleData = (e : Blob) => {
       setAudioURL(URL.createObjectURL(e.data));
       const audio = new Audio(URL.createObjectURL(e.data));
-      audio.play();
+      setAudioSource(URL.createObjectURL(e.data));
+    //   audio.play();
       uploadAudio(e.data);
     };
 
@@ -189,7 +194,9 @@ function Record() {
 
   return (
     <div className="w-screen p-10">
-      <h1 className="text-4xl mt-8 font-bold">{title} Recording</h1>
+        
+      {isRecording !== "stopped" && <h1 className="text-4xl mt-8 font-bold">{isRecording === "not started" ? "Click Record to Begin!" : "Recording..."}</h1> }
+      {isRecording === "stopped" && <h1 className="text-4xl mt-8 font-bold">Recording Done!</h1> }
       <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10 items-center justify-center">
         <div>{className}</div>
         <div>
@@ -201,8 +208,13 @@ function Record() {
     {((isRecording == "started") || (isRecording == "paused") || (isRecording == "resumed") ) ? <PauseButton isRecording={isRecording} pauseRecording={pauseRecording} resumeRecording={resumeRecording} setIsRecording={setIsRecording}></PauseButton> : <RecordButton isRecording={isRecording} startRecording={startRecording}/>}
           {(isRecording == "started" || isRecording == "paused" || isRecording == "resumed") && <EndButton stopRecording={stopRecording}/>}
           </div>
+        
+          {isRecording === "stopped" && <div className="mx-auto flex justify-center my-4"><audio controls="controls" src={audioSource} type="audio/mp3" /></div>}
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
+
           <p className="text-left mb-2">Transcript: </p>
+       {isRecording === "stopped" && speechToText.text === "Record a lecture to begin transcription!" && <Loading></Loading>}
+        {isRecording === "stopped" && speechToText.text !== "Record a lecture to begin transcription!" && <>
           <p className="text-left">{speechToText.text}</p>
           <h1 className="text-2xl mt-6 font-bold">Chapters</h1>
           <ul id="headers" className=" gap-3 font-bold mt-5 grid grid-cols-5 text-left border bg-black rounded-lg shadow-lg">
@@ -214,13 +226,14 @@ function Record() {
         </ul>
           {speechToText.chapters.map((chapter) => {
           return (
-          <ul className="grid grid-cols-5 border-2 text-left border-gray-400">
+          <ul className="grid grid-cols-5">
             <li className="p-4">{chapter.summary}</li>
             <li className="p-4">{chapter.headline}</li>
             <li className="p-4">{chapter.gist}</li>
             <li className="p-4">{Math.floor(Math.floor(chapter.start / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.start / 1000)/60)}:{Math.floor(chapter.start / 1000) % 60 <10 && 0}{Math.floor(chapter.start / 1000) % 60}</li>
             <li className="p-4">{Math.floor(Math.floor(chapter.end / 1000)/60) < 10 && 0}{Math.floor(Math.floor(chapter.end / 1000)/60)}:{Math.floor(chapter.end / 1000) % 60 <10 && 0}{Math.floor(chapter.end / 1000) % 60}</li>
           </ul>);})}
+          </>}
       </div>
   );
 }

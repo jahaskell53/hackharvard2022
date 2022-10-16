@@ -17,7 +17,7 @@ const navigate = useNavigate();
   const options = {
     role: ["Student", "Professor"],
     class: ["APMA 1650", "CS 150", "MATH 100"],
-    university: ["Brown", "Harvard", "MIT"],
+    university: ["Brown", "Harvard", "MIT", "Northeastern"],
     action: ["Record", "Watch"],
   };
   const [selected, setSelected] = useState({
@@ -116,6 +116,7 @@ function changeSel(name: string, selection: string) {
   return (
     <div className="w-screen h-full justify-center flex items-center text-center font-bold bg-white">
       <form>
+
         <div className="text-4xl text-bold mb-4">
           I am a &nbsp;
           <DropDown initialSelected="Student" options={options.role}
