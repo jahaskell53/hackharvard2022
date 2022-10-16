@@ -196,7 +196,7 @@ function Record() {
           {(isRecording == "started" || isRecording == "paused" || isRecording == "resumed") && <EndButton stopRecording={stopRecording}/>}
           </div>
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
-          <p className="text-left">{speechToText.text}</p>
+          Transcript: <p className="text-left">{speechToText.text}</p>
           <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
             <li className="p-4 text-white">Summary</li>
             <li className="p-4 text-white">Headline</li>
