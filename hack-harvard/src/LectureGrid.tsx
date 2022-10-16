@@ -32,7 +32,7 @@ function format_lecture(doc) {
   return {
     title: data.title,
     date: format_date(data.date),
-    key: data.id
+    id: data.id
   };
 }
 
