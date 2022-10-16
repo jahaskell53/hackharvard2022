@@ -9,6 +9,10 @@ import PauseButton from "./PauseButton";
 import useRecorder from "./AudioHelper";
 import { useParams } from "react-router-dom";
 import date from 'date-and-time';
+import axios from "axios"
+import { initializeApp } from "firebase/app";
+import { getDocs, getFirestore } from "firebase/firestore";
+import { collection, addDoc, query, where, Timestamp } from "firebase/firestore";
 
 async function requestRecorder() {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -22,10 +26,29 @@ function Record() {
 
   const { lectureId } = useParams();
   const [time, setTime] = useState(0);  
-    const id = lectureId?.split("lecture-")[1];
-
-    const [isActive, setIsActive] = useState(false);
+  const id = lectureId?.split("lecture-")[1];
+  const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
+    authDomain: "platypus-49047.firebaseapp.com",
+    projectId: "platypus-49047",
+    storageBucket: "platypus-49047.appspot.com",
+    messagingSenderId: "727232881257",
+    appId: "1:727232881257:web:5fc4ab88016e401f2c78f8"
+};
+  const firebaseapp = initializeApp(firebaseConfig);
+  const db = getFirestore(firebaseapp);
+
+  const assembly = axios.create({
+      baseURL: "https://api.assemblyai.com/v2",
+      headers: {
+          authorization: "0daee8a3236348678195040d20b89b83",
+        " content-type": "application/json",
+      },
+  });
+
   
   useEffect(() => {
     let interval = null;
@@ -66,11 +89,67 @@ function Record() {
     }
 
     // Obtain the audio when ready.
-    const handleData = (e) => {
-      console.log(e.data);
+    function uploadAudio(blob) {
+
+      const recordClass = "APMA1650";
+      assembly
+      .post("/upload", blob)
+      .then((res) => 
+      assembly
+          .post("/transcript", {
+              audio_url: res.data.upload_url,
+              auto_chapters: true
+          })
+          .then((res) => {
+              console.log(res.data.id);
+              let dateObj = new Date();
+                  const defaultTitle = recordClass+" "+
+                  (dateObj.getMonth()+1)+'/'+dateObj.getDate()+'/'+dateObj.getFullYear()
+                  + " " + dateObj.getHours()+":"+dateObj.getMinutes();
+              const docData = {
+                  "university": "Brown",
+                  "class": "APMA1650",
+                  "title": defaultTitle,
+                  "id": res.data.id,
+                  "date": Timestamp.now()
+              };
+              addDoc(collection(db, "lectures"), docData);
+              const fetchData = {
+                "university": "Brown",
+                "class": "APMA1650",
+                "title": defaultTitle
+            };
+            const q = query(collection(db, "lectures"),
+                where("university", "==", fetchData.university),
+                where("class", "==", fetchData.class),
+                where("title", "==", fetchData.title));
+            var foundLectures = 0;
+            getDocs(q).then((foundDocs) => {
+            foundDocs.forEach(async (doc) => {
+                foundLectures++;
+                if (foundLectures == 1) {
+                    const transcriptId = doc.data().id;
+                    //const transcriptId = "rkfaoq5a8w-cbca-4c57-b98e-f30e5f076bb0";
+                    console.log("awaiting promise")
+                    await new Promise(r => setTimeout(r, 30000));
+                    console.log("done")
+                    assembly
+                        .get("/transcript/"+transcriptId)
+                        .then((res) => console.log(res.data))
+                        .catch((err) => console.error(err));
+                    
+                }
+            })
+            });
+          })
+      )
+  }
+
+    const handleData = (e : Blob) => {
       setAudioURL(URL.createObjectURL(e.data));
       const audio = new Audio(URL.createObjectURL(e.data));
       audio.play();
+      uploadAudio(e.data);
     };
 
     recorder.addEventListener("dataavailable", handleData);
