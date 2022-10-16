@@ -7,6 +7,8 @@ import RecordButton from "./RecordButton";
 import EndButton from "./EndButton";
 import HomeButton from "./HomeButton";
 import { Navbar } from "./components/Navbar";
+import { collection, query, where, Timestamp, getDocs, getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 function HomePage() {
   const [count, setCount] = useState(0);
@@ -24,14 +26,77 @@ const navigate = useNavigate();
     university: "Brown",
     action: "Record",
   });
+  interface FetchData {
+    university: string;
+    class: string;
+  }
+
+  const fetchData: FetchData = {
+    "university": "Brown",
+    "class": "APMA1650"
+  };
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
+    authDomain: "platypus-49047.firebaseapp.com",
+    projectId: "platypus-49047",
+    storageBucket: "platypus-49047.appspot.com",
+    messagingSenderId: "727232881257",
+    appId: "1:727232881257:web:5fc4ab88016e401f2c78f8"
+  };
+
+  // TODO: use env variables for keys
+  const firebaseapp = initializeApp(firebaseConfig);
+// TODO: create context for firestore
+const db = getFirestore(firebaseapp);
+
+const [docs, setDocs] = useState([]);
+
+function format_date(raw_date) {
+    let date = new Date(raw_date.seconds * 1000);
+    return ''+(1+date.getMonth())+'/'+date.getDate()+'/'+date.getFullYear() + ' ' + date.getHours()+':'+date.getMinutes();
+  }
+function format_lecture(doc) {
+    const data = doc.data();
+    return {
+      title: data.title,
+      date: format_date(data.date),
+      key: data.id
+    };
+  }
+
+  async function getLectureData(fetchData: FetchData) {
+    // TODO: replace this with general
+    const q = query(collection(db, "lectures"),
+      where("university", "==", fetchData.university),
+      where("class", "==", fetchData.class));
+    
+    const foundDocs = await getDocs(q);     
+      const update_docs = [];
+      console.log(foundDocs);
+    
+    foundDocs.forEach((doc) => {
+      update_docs.push(doc);
+    });
+
+    setDocs(update_docs.map(format_lecture));
+    console.log(update_docs.map(format_lecture));
+    const thing = update_docs.map(format_lecture);
+    return thing;
+    };
 
 
-  function handleSubmit(e: Event) {
+
+  async function handleSubmit(e: Event) {
     e.preventDefault();
     console.log("Submitted", selected);
     switch(selected.action) {
         case "Record":
-            navigate("/record");
+            const lecture = await getLectureData(fetchData);
+            // TODO: create id for lecture in firestore
+            const lectureId = lecture[0].id;
+            console.log("lecture", lectureId);
+            navigate(`/record/lecture-${lectureId}`);
             break;
         case "Watch":
             navigate("/watch");
