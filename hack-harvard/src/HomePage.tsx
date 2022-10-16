@@ -117,7 +117,7 @@ function changeSel(name: string, selection: string) {
     <div className="w-screen h-full justify-center flex items-center text-center font-bold bg-white">
       <form>
 
-        <div className="text-4xl text-bold mb-4">
+        <div className="text-4xl text-bold mb-4 leading-relaxed">
           I am a &nbsp;
           <DropDown initialSelected="Student" options={options.role}
             changeSel={(selection: string) => changeSel("role", selection)}></DropDown>
