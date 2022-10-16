@@ -23,7 +23,7 @@ const navigate = useNavigate();
   const [selected, setSelected] = useState({
     role: "Student",
     class: "APMA 1650",
-    university: "Brown",
+    university: "MIT",
     action: "Record",
   });
   interface FetchData {
@@ -31,10 +31,7 @@ const navigate = useNavigate();
     class: string;
   }
 
-  const fetchData: FetchData = {
-    "university": "Brown",
-    "class": "APMA1650"
-  };
+  
 
   const firebaseConfig = {
     apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
@@ -65,6 +62,8 @@ function format_lecture(doc) {
     };
   }
 
+  // do query params with class and university
+
   async function getLectureData(fetchData: FetchData) {
     // TODO: replace this with general
     const q = query(collection(db, "lectures"),
@@ -90,13 +89,19 @@ function format_lecture(doc) {
   async function handleSubmit(e: Event) {
     e.preventDefault();
     console.log("Submitted", selected);
+    const fetchData: FetchData = {
+        university: selected.university,
+        class: selected.class
+      };
     switch(selected.action) {
         case "Record":
             const lecture = await getLectureData(fetchData);
-            // TODO: create id for lecture in firestore
-            const lectureId = lecture[0].id;
-            console.log("lecture", lectureId);
-            navigate(`/record/lecture-${lectureId}`);
+
+            const count = lecture.length;
+            console.log("selected university", selected.university);
+            const title = `Lecture ${count+1}`;
+            // TODO: get lecture title from number of entries + 1
+            navigate(`/record?university=${selected.university}&class=${selected.class}&title=${title}`);
             break;
         case "Watch":
             navigate("/watch");

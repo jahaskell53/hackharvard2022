@@ -7,7 +7,7 @@ import HomeButton from "./HomeButton";
 import EndButton from "./EndButton";
 import PauseButton from "./PauseButton";
 import useRecorder from "./AudioHelper";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import date from 'date-and-time';
 import axios from "axios"
 import { initializeApp } from "firebase/app";
@@ -20,14 +20,20 @@ async function requestRecorder() {
 }
 
 function Record() {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const university = searchParams.get("university");
+    const className = searchParams.get("class");
+    const title = searchParams.get("title");
+
   const [audioURL, setAudioURL] = useState("");
   const [isRecording, setIsRecording] = useState("stopped");
   const [recorder, setRecorder] = useState<MediaRecorder|null>(null);
 
-  const { lectureId } = useParams();
   const [time, setTime] = useState(0);  
-  const id = lectureId?.split("lecture-")[1];
-  const [isActive, setIsActive] = useState(false);
+    // const id = lectureId?.split("lecture-")[1];
+
+    const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
 
   const firebaseConfig = {
@@ -159,13 +165,13 @@ function Record() {
   const startRecording = () => {
     setIsRecording("started");
     setIsActive(true);
-    setIsPaused(false);
+    setIsPaused(false);         
   };
 
   const stopRecording = () => {
     setIsRecording("stopped");
     setIsActive(false);
-    // setTime(0);
+    setTime(0);
 
   };
   
@@ -184,7 +190,9 @@ function Record() {
 
   return (
     <div className="w-screen p-10">
-      <h1 className="text-4xl my-8">Lecture {id} Recording</h1>
+      <h1 className="text-4xl my-8">{title} Recording</h1>
+      <h1 className="text-4xl my-8">{className} </h1>
+      <h1 className="text-4xl my-8">{university} </h1>
       <div className="flex flex-row gap-5 justify-center">
     {((isRecording == "started") || (isRecording == "paused") || (isRecording == "resumed") ) ? <PauseButton isRecording={isRecording} pauseRecording={pauseRecording} resumeRecording={resumeRecording} setIsRecording={setIsRecording}></PauseButton> : <RecordButton isRecording={isRecording} startRecording={startRecording}/>}
           {(isRecording == "started" || isRecording == "paused" || isRecording == "resumed") && <EndButton stopRecording={stopRecording}/>}
