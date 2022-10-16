@@ -80,7 +80,7 @@ function LectureGrid() {
             <li className="p-4 text-white">Date</li>
         </ul>
         <ul className="flex flex-col">
-          {docs.length == 0 &&  [...Array(10)].map(item => <a className="w-full h-20 animate-pulse gap-3 grid-cols-2 grid text-left border bg-gray-200 shadow-md transition-all duration-100">
+          {docs.length == 0 &&  [...Array(10)].map(item => <a className="w-full h-20 animate-pulse gap-3 grid-cols-2 grid text-left border bg-gray-200 shadow-2xl transition-all duration-100">
                     </a>)}
             {docs.map((lecture) => {
                 return (

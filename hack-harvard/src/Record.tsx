@@ -212,9 +212,9 @@ function Record() {
           {isRecording === "stopped" && <div className="mx-auto flex justify-center my-4"><audio controls="controls" src={audioSource} type="audio/mp3" /></div>}
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
 
-          <p className="text-left mb-2">Transcript: </p>
        {isRecording === "stopped" && speechToText.text === "Record a lecture to begin transcription!" && <Loading></Loading>}
         {isRecording === "stopped" && speechToText.text !== "Record a lecture to begin transcription!" && <>
+          <p className="text-left mb-2">Transcript: </p>
           <p className="text-left">{speechToText.text}</p>
           <h1 className="text-2xl mt-6 font-bold">Chapters</h1>
           <ul id="headers" className=" gap-3 font-bold mt-5 grid grid-cols-5 text-left border bg-black shadow-lg">
