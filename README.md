@@ -1,3 +1,5 @@
+<img width="1438" alt="Screen Shot 2022-10-16 at 4 41 16 AM" src="https://user-images.githubusercontent.com/90672866/196026522-657f6a35-6551-467a-be45-5973577c71dd.png">
+
 ## Inspiration
 As college students ourselves, we've been through a few lectures. Sometimes we have conflicting activities and can't make it to class. Sometimes we don't have conflicting activities and _still_ don't make it to class. Or perhaps we attend class and wish we could rewind time to hear what the professor said just once more. This serves as the inspiration behind **Recap.ai**. While it is true that some lectures are recorded and uploaded by professors, many are not and those that are available do not provide closed captioning. Therefore, students that are hearing impaired are at a major disadvantage when it comes to obtaining the content from lecture. Recap.ai bridges that gap by enabling students and professors to share lecture transcripts and promote access to knowledge.
 
