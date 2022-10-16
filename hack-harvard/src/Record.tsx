@@ -20,11 +20,11 @@ async function requestRecorder() {
 }
 
 function Record() {
-
     const [searchParams, setSearchParams] = useSearchParams();
     const university = searchParams.get("university");
     const className = searchParams.get("class");
     const title = searchParams.get("title");
+    const [speechToText, setSpeechToText] = useState({chapters:[], text:"Record a lecture to begin transcription!"})
 
   const [audioURL, setAudioURL] = useState("");
   const [isRecording, setIsRecording] = useState("stopped");
@@ -141,7 +141,7 @@ function Record() {
                     console.log("done")
                     assembly
                         .get("/transcript/"+transcriptId)
-                        .then((res) => console.log(res.data))
+                        .then((res) => {console.log(res.data); setSpeechToText({text: res.data.text, chapters: res.data.chapters})})
                         .catch((err) => console.error(err));
                     
                 }
@@ -186,8 +186,6 @@ function Record() {
 
   }
 
-
-
   return (
     <div className="w-screen p-10">
       <h1 className="text-4xl my-8">{title} Recording</h1>
@@ -198,7 +196,16 @@ function Record() {
           {(isRecording == "started" || isRecording == "paused" || isRecording == "resumed") && <EndButton stopRecording={stopRecording}/>}
           </div>
           <p className="mt-6 text-2xl mb-6">{Math.floor(Math.floor(time / 1000)/60) < 10 && 0}{Math.floor(Math.floor(time / 1000)/60)}:{Math.floor(time / 1000) % 60 <10 && 0}{Math.floor(time / 1000) % 60}</p>
-          <p className="text-left">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam dicta alias reiciendis rerum? Esse minus, laboriosam repellendus deleniti, inventore consectetur minima pariatur saepe dolores tempore recusandae soluta odit cumque debitis adipisci, nobis quae unde illum tempora sunt! Molestias ad esse provident modi assumenda voluptate totam quibusdam commodi. Iste amet tempora repellat error mollitia quibusdam, enim expedita assumenda ipsa. Vel nobis minima non asperiores cum saepe quasi facilis, tempore itaque nulla sequi sed quam officiis blanditiis eos voluptate, obcaecati neque pariatur deleniti rem consequuntur. Commodi nisi voluptatibus, soluta, consequuntur facilis reiciendis repellendus neque in explicabo accusamus eveniet sequi, quod voluptate! Aspernatur.</p>
+          <p className="text-left">{speechToText.text}</p>
+          {speechToText.chapters.map((chapter) => {
+          return (
+          <div className="grid grid-cols-5">
+            <p>{chapter.summary}</p>
+            <p>{chapter.headline}</p>
+            <p>{chapter.gist}</p>
+            <p>{chapter.start}</p>
+            <p>{chapter.end}</p>
+          </div>);})}
       </div>
   );
 }
