@@ -16,7 +16,7 @@ const navigate = useNavigate();
 
   const options = {
     role: ["Student", "Professor"],
-    class: ["APMA 1650", "APMA 1651", "APMA 1652"],
+    class: ["APMA 1650", "CS 150", "MATH 100"],
     university: ["Brown", "Harvard", "MIT"],
     action: ["Record", "Watch"],
   };
