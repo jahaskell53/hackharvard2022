@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import DropDown from "./DropDown";
 import HomeButton from "./HomeButton";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
-function LectureGrid() {
+function Lecture() {
   const [count, setCount] = useState(0);
+
+  const [docs, setDocs] = useState([]);
+  const [thing, setThing] = useState({"university": "Brown", "class": "APMA1650", "title": "Lecture 1"});
+
+  const [params, setParams] = useSearchParams();
   const options = {
     role: ["Student", "Professor"],
     class: ["APMA 1650", "APMA 1651", "APMA 1652"],
@@ -14,8 +27,63 @@ function LectureGrid() {
     action: ["Record", "Watch"],
   };
 
-  const { lectureId } = useParams();
-  console.log("lectureId", lectureId);
+  const firebaseConfig = {
+    apiKey: "AIzaSyDPYapXYkdwTze1RvMSwdlBnVf31Hk_7jY",
+    authDomain: "platypus-49047.firebaseapp.com",
+    projectId: "platypus-49047",
+    storageBucket: "platypus-49047.appspot.com",
+    messagingSenderId: "727232881257",
+    appId: "1:727232881257:web:5fc4ab88016e401f2c78f8",
+  };
+  const firebaseapp = initializeApp(firebaseConfig);
+  const db = getFirestore(firebaseapp);
+  function format_date(raw_date) {
+    let date = new Date(raw_date.seconds * 1000);
+    return ''+(1+date.getMonth())+'/'+date.getDate()+'/'+date.getFullYear() + ' ' + date.getHours()+':'+date.getMinutes();
+  }
+
+  function format_lecture(doc) {
+    const data = doc.data();
+    return {
+      title: data.title,
+      date: format_date(data.date),
+      id: data.id,
+      university: data.university,
+      class: data.class
+    };
+  }
+  
+  useEffect(() => {
+    async function getLectureDataByTitle(fetchData) {
+        // TODO: replace this with general
+        const q = query(
+          collection(db, "lectures"),
+          where("title", "==", fetchData.title)
+        );
+    
+        const foundDocs = await getDocs(q);
+        const update_docs = [];
+        console.log(foundDocs);
+    
+        foundDocs.forEach(doc => {
+          update_docs.push(doc);
+        });
+    
+        setDocs(update_docs.map(format_lecture));
+        console.log(update_docs.map(format_lecture));
+        const thing = update_docs.map(format_lecture);
+        return thing[0];
+      }
+      getLectureDataByTitle({ title: title }).then(stuff => {
+        console.log(stuff);
+        setThing(stuff)
+      })
+      console.log("thing, thing")
+    //   setThing(result);
+  }, [])
+ 
+
+  const title = params.get("title");
 
   const lectures = [
     {
@@ -40,16 +108,24 @@ function LectureGrid() {
       professor: "Professor 1",
     },
   ];
-  function getLectureById(id: string) {
-    return lectures.find(lecture => lecture.id === id);
-  }
+  //   function getLectureById(id: string) {
+  //     return lectures.find(lecture => lecture.id === id);
+  //   }
 
-  const lecture = getLectureById(lectureId!.split("lecture-")[1]);
+ 
+
   return (
-    <div className="w-screen mx-auto px-20">
-      <h1 className="pt-10 pb-3 text-4xl font-bold">
-        {lecture!.class} {lecture!.title}
+    <div className="w-screen mx-auto px-20 flex flex-col">
+      <h1 className="pt-10 text-4xl font-bold">
+        {title} Recording
       </h1>
+      <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10">
+        <div>{thing.university}</div>
+        <div className="">
+        {thing.class}
+      </div>
+      </div>
+     
       <hr></hr>
       <p className="text-left mt-10">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam
@@ -69,4 +145,4 @@ function LectureGrid() {
   );
 }
 
-export default LectureGrid;
+export default Lecture;

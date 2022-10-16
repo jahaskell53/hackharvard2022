@@ -33,7 +33,9 @@ function format_lecture(doc) {
   return {
     title: data.title,
     date: format_date(data.date),
-    id: data.id
+    id: data.id,
+    university: data.university,
+    class: data.class
   };
 }
 
@@ -72,7 +74,7 @@ function LectureGrid() {
         <ul>
             {docs.map((lecture) => {
                 return (
-                    <a href={`watch/lecture-${lecture.id}`} className="w-full gap-3 grid-cols-4 grid text-left border hover:bg-gray-200 transition-all">
+                    <a href={`watch/lecture?title=${lecture.title}`} className="w-full gap-3 grid-cols-4 grid text-left border hover:bg-gray-200 transition-all">
                         <li className="p-4">{lecture.title}</li>
                         <li className="p-4">{lecture.date}</li>
                     </a>

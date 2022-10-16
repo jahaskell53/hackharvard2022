@@ -96,11 +96,9 @@ function format_lecture(doc) {
     switch(selected.action) {
         case "Record":
             const lecture = await getLectureData(fetchData);
-
             const count = lecture.length;
             console.log("selected university", selected.university);
             const title = `Lecture ${count+1}`;
-            // TODO: get lecture title from number of entries + 1
             navigate(`/record?university=${selected.university}&class=${selected.class}&title=${title}`);
             break;
         case "Watch":
