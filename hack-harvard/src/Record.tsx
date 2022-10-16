@@ -217,7 +217,7 @@ function Record() {
           <p className="text-left mb-2">Transcript: </p>
           <p className="text-left">{speechToText.text}</p>
           <h1 className="text-2xl mt-6 font-bold">Chapters</h1>
-          <ul id="headers" className=" gap-3 font-bold mt-5 grid grid-cols-5 text-left border bg-black shadow-lg">
+          <ul id="headers" className=" gap-3 font-bold mt-5 grid grid-cols-5 text-left border bg-black rounded-lg shadow-lg">
             <li className="p-4 text-white">Summary</li>
             <li className="p-4 text-white">Headline</li>
             <li className="p-4 text-white">Gist</li>

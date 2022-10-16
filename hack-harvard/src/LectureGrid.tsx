@@ -75,7 +75,7 @@ function LectureGrid() {
 
   return (
     <div className="w-screen p-10">
-        <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-2 text-left border bg-black shadow-lg">
+        <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-2 text-left border bg-black rounded-lg shadow-lg">
             <li className="p-4 text-white">Lecture</li>
             <li className="p-4 text-white">Date</li>
         </ul>

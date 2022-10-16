@@ -128,7 +128,7 @@ function Lecture() {
 
           <hr></hr>
           <p className="mt-4">Transcript:</p> <p className="text-left">{speechToText.text}</p>
-          <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black shadow-lg">
+          <ul id="headers" className=" gap-3 font-bold mt-8 grid grid-cols-5 text-left border bg-black rounded-lg shadow-lg">
               <li className="p-4 text-white">Summary</li>
               <li className="p-4 text-white">Headline</li>
               <li className="p-4 text-white">Gist</li>
