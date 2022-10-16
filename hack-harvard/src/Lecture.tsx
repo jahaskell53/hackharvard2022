@@ -118,12 +118,13 @@ function Lecture() {
           <h1 className="pt-10 text-4xl font-bold">
               {title} Recording
           </h1>
+          {thing && 
           <div className="pt-4 pb-3 text-xl text-gray-600 flex self-center align-center flex-row gap-10">
               <div>{thing.university}</div>
               <div className="">
                   {thing.class}
               </div>
-          </div>
+          </div>}
 
           <hr></hr>
           <p className="mt-4">Transcript:</p> <p className="text-left">{speechToText.text}</p>

@@ -79,7 +79,9 @@ function LectureGrid() {
             <li className="p-4 text-white">Lecture</li>
             <li className="p-4 text-white">Date</li>
         </ul>
-        <ul>
+        <ul className="flex flex-col">
+          {docs.length == 0 &&  [...Array(10)].map(item => <a className="w-full h-20 animate-pulse gap-3 grid-cols-2 grid text-left border bg-gray-200 shadow-md transition-all duration-100">
+                    </a>)}
             {docs.map((lecture) => {
                 return (
                     <a href={`watch/lecture?title=${lecture.title}`} className="w-full gap-3 grid-cols-2 grid text-left border hover:bg-gray-200 transition-all">
