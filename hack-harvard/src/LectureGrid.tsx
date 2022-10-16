@@ -58,8 +58,16 @@ function LectureGrid() {
       update_docs.push(doc);
     });
 
-    setDocs(update_docs.map(format_lecture));
-    console.log(update_docs.map(format_lecture));
+    const sort_docs = update_docs.sort((a,b) => {
+      if (a.data().date < b.data().date)
+        return 1;
+      if (a.data().date > b.data().date)
+        return -1;
+      return 0;
+    });
+
+    setDocs(sort_docs.map(format_lecture));
+    console.log(sort_docs.map(format_lecture));
     });
   }
   getData();
