@@ -137,7 +137,7 @@ function Lecture() {
           </ul>
           {speechToText.chapters.map((chapter) => {
               return (
-                  <ul className="grid grid-cols-5">
+                  <ul className="grid grid-cols-5 text-left">
                       <li className="p-4">{chapter.summary}</li>
                       <li className="p-4">{chapter.headline}</li>
                       <li className="p-4">{chapter.gist}</li>
