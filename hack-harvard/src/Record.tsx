@@ -214,7 +214,7 @@ function Record() {
         </ul>
           {speechToText.chapters.map((chapter) => {
           return (
-          <ul className="grid grid-cols-5 border-2 border-gray-400">
+          <ul className="grid grid-cols-5 border-2 text-left border-gray-400">
             <li className="p-4">{chapter.summary}</li>
             <li className="p-4">{chapter.headline}</li>
             <li className="p-4">{chapter.gist}</li>
